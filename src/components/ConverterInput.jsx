@@ -24,6 +24,7 @@ function ConverterInput({
         value={amountValue}
         readOnly={readOnly}
         className="h-14 w-full rounded-r-lg bg-zinc-800 pl-2"
+        placeholder="8.88"
       />
     </div>
   );

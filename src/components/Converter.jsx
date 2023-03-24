@@ -4,8 +4,8 @@ import ConverterInput from './ConverterInput';
 
 function Converter() {
   const [converterValues, setConverterValues] = useState({
-    from: { code: 'UAH', value: 0 },
-    to: { code: 'EUR', value: 0 },
+    from: { code: 'UAH', value: null },
+    to: { code: 'EUR', value: null },
   });
   const [{ loading }, refetch] = useAxios(
     { url: '/convert' },
