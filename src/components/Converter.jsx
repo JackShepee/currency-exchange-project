@@ -4,8 +4,8 @@ import ConverterInput from './ConverterInput';
 
 function Converter() {
   const [converterValues, setConverterValues] = useState({
-    from: { code: 'UAH', value: null },
-    to: { code: 'EUR', value: null },
+    from: { code: 'UAH', value: '' },
+    to: { code: 'EUR', value: '' },
   });
   const [{ loading }, refetch] = useAxios(
     { url: '/convert' },
@@ -27,7 +27,11 @@ function Converter() {
       console.log(error);
     }
     const newValue = { ...converterValues };
-    newValue.to.value = response?.data.result || 0;
+    if (params.from === converterValues.from.code) {
+      newValue.to.value = response?.data.result || 0;
+    } else {
+      newValue.from.value = response?.data.result || 0;
+    }
     setConverterValues(newValue);
   };
 
@@ -49,21 +53,30 @@ function Converter() {
     }
   };
 
-  const handleValueChange = async (event) => {
+  const handleValueChange = async (event, target) => {
     const newValue = { ...converterValues };
-    newValue.from.value = event.target.value;
-    await convertCurrency({
-      from: converterValues.from.code,
-      to: converterValues.to.code,
-      amount: event.target.value,
-    });
+    if (target === 'from') {
+      newValue.from.value = event.target.value;
+      await convertCurrency({
+        from: converterValues.from.code,
+        to: converterValues.to.code,
+        amount: event.target.value,
+      });
+    } else {
+      newValue.to.value = event.target.value;
+      await convertCurrency({
+        from: converterValues.to.code,
+        to: converterValues.from.code,
+        amount: event.target.value,
+      });
+    }
   };
 
   return (
     <div className="mt-5 w-full">
       <ConverterInput
         onCurrencyChange={(event) => handleCurrencyChange(event, 'from')}
-        onValueChange={handleValueChange}
+        onValueChange={(event) => handleValueChange(event, 'from')}
         amountValue={converterValues.from.value}
         codeValue={converterValues.from.code}
       />
@@ -86,10 +99,9 @@ function Converter() {
 
       <ConverterInput
         onCurrencyChange={(event) => handleCurrencyChange(event, 'to')}
-        onValueChange={handleValueChange}
+        onValueChange={(event) => handleValueChange(event, 'to')}
         amountValue={converterValues.to.value}
         codeValue={converterValues.to.code}
-        readOnly
       />
     </div>
   );

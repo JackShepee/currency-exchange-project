@@ -5,7 +5,6 @@ function ConverterInput({
   onCurrencyChange,
   amountValue,
   codeValue,
-  readOnly,
 }) {
   return (
     <div className="flex text-lg text-white">
@@ -22,7 +21,6 @@ function ConverterInput({
         type="number"
         onChange={onValueChange}
         value={amountValue}
-        readOnly={readOnly}
         className="h-14 w-full rounded-r-lg bg-zinc-800 pl-2"
         placeholder="8.88"
       />
