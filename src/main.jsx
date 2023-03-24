@@ -5,10 +5,8 @@ import App from './App';
 import './index.css';
 
 axios.defaults.baseURL = 'https://api.apilayer.com/exchangerates_data';
-axios.defaults.headers.common.apikey = 'BibwYjcwf3yKCRXQFklZsneC4C96kuIV';
+axios.defaults.headers.common.apikey = import.meta.env.VITE_API_KEY;
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <App />,
 );
